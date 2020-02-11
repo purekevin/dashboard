@@ -1,0 +1,53 @@
+#!/bin/sh
+
+
+echo -e "\n\n\n"
+
+echo "Deleting users: prometheus, node_exporter, pure_exporter"
+userdel -rf prometheus
+userdel -rf node_exporter
+userdel -rf pure_exporter
+
+echo "creating diretories..."
+\rm -r /etc/prometheus
+\rm -r /var/lib/prometheus
+\rm -r /tmp/prometheus
+
+
+
+echo "Re-enabling selinux..."
+
+sed -i s/^SELINUX=.*$/SELINUX=enforcing/ /etc/selinux/config
+setenforce 1
+sestatus
+
+rm /usr/local/bin/prometheus
+rm /usr/lib/systemd/system/prometheus.service
+
+
+systemctl disable --now node_exporter
+systemctl stop node_exporter
+systemctl status node_exporter
+
+systemctl status prometheus
+systemctl disable --now prometheus
+systemctl stop prometheus
+systemctl status prometheus
+
+rm /etc/systemd/system/prometheus.service /etc/systemd/system/node_exporter.service
+
+/bin/systemctl stop grafana-server.service
+/bin/systemctl disable grafana-server.service
+/bin/systemctl daemon-reload
+
+yum erase -y grafana
+rm /etc/yum.repos.d/grafana.repo
+
+
+
+rm -r /etc/grafana
+rm -r /usr/share/grafana
+rm -r /var/log/grafana
+rm -r /var/lib/yum/repos/x86_64/7/grafana
+rm -r /var/lib/grafana
+rm -r /var/cache/yum/x86_64/7/grafana
