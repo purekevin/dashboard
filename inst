@@ -139,8 +139,9 @@ yum -y install grafana
 /bin/systemctl enable grafana-server.service
 /bin/systemctl start grafana-server.service
 
-yum install -y unzip
+#yum install -y unzip
 
+wget https://raw.githubusercontent.com/purekevin/se-dashboarding/master/prometheus-flashblade-exporter
 cp /home/pureuser/prometheus-flashblade-exporter /var/lib/prometheus
 ln -s /var/lib/prometheus/prometheus-flashblade-exporter /usr/local/bin/prometheus-flashblade-exporter
 chown prometheus:prometheus /var/lib/prometheus/prometheus-flashblade-exporter
