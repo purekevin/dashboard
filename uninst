@@ -51,3 +51,6 @@ rm -r /var/log/grafana
 rm -r /var/lib/yum/repos/x86_64/7/grafana
 rm -r /var/lib/grafana
 rm -r /var/cache/yum/x86_64/7/grafana
+
+rm /usr/local/bin/prometheus
+rm /usr/local/bin/prometheus-flashblade-exporter
