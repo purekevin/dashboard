@@ -1,6 +1,6 @@
 #!/bin/sh
 echo "Updating system rpms...."
-yum update -y
+yum update -y -q
 
 echo -e "\n\n\n"
 
@@ -133,7 +133,7 @@ gpgcheck=1
 gpgkey=https://packages.grafana.com/gpg.key
 sslverify=1
 sslcacert=/etc/pki/tls/certs/ca-bundle.crt" >/etc/yum.repos.d/grafana.repo
-yum -y install grafana
+yum -y -q install grafana
 
 /bin/systemctl daemon-reload
 /bin/systemctl enable grafana-server.service
