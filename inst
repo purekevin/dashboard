@@ -178,4 +178,4 @@ echo "
 printf "${GREEN}Restarting Prometheus after updating the /etc/prometheus/prometheus.yml file...${NC}\n"
 systemctl restart prometheus
 sleep 5
-systemctl status prometheus | grep "Active:${NC}\n"
+systemctl status prometheus | grep "Active"
