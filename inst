@@ -3,24 +3,17 @@
 INST_DIR=`pwd`
 
 RED='\033[0;31m'
-RGREEN='\033[0;32m'
+GREEN='\033[0;32m'
 NC='\033[0m' # No Color
-printf "${GREEN}-----------------  Beginning install ------------------------\n"
-#printf "${GREEN}-----------------  Beginning install ------------------------${NC}\n"
+printf "${GREEN}-----------------  Beginning install ------------------------${NC}\n"
 
 
 echo "Updating system rpms...."
 yum update -y -q
 
 echo
+printf "${GREEN}Creating users: prometheus, node_exporter, pure_exporter${NC}\n"
 
-#echo "Disabling selinux..."
-#sed -i s/^SELINUX=.*$/SELINUX=disabled/ /etc/selinux/config
-#setenforce 0
-#sestatus
-#echo -e  "\n\n\n"
-
-echo "Creating users: prometheus, node_exporter, pure_exporter"
 useradd --no-create-home --shell /usr/sbin/nologin prometheus
 useradd --no-create-home --shell /bin/false node_exporter
 useradd --no-create-home --shell /usr/sbin/nologin pure_exporter
