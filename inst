@@ -1,14 +1,17 @@
 #!/bin/sh
+
+INST_DIR=`pwd`
+
 echo "Updating system rpms...."
 yum update -y -q
 
 echo -e "\n\n\n"
 
-echo "Disabling selinux..."
-sed -i s/^SELINUX=.*$/SELINUX=disabled/ /etc/selinux/config
-setenforce 0
-sestatus
-echo -e  "\n\n\n"
+#echo "Disabling selinux..."
+#sed -i s/^SELINUX=.*$/SELINUX=disabled/ /etc/selinux/config
+#setenforce 0
+#sestatus
+#echo -e  "\n\n\n"
 
 echo "Creating users: prometheus, node_exporter, pure_exporter"
 useradd --no-create-home --shell /usr/sbin/nologin prometheus
@@ -139,9 +142,17 @@ yum -y -q install grafana
 /bin/systemctl enable grafana-server.service
 /bin/systemctl start grafana-server.service
 
-#yum install -y unzip
 
 wget https://raw.githubusercontent.com/purekevin/se-dashboarding/master/prometheus-flashblade-exporter
 cp /home/pureuser/prometheus-flashblade-exporter /var/lib/prometheus
 ln -s /var/lib/prometheus/prometheus-flashblade-exporter /usr/local/bin/prometheus-flashblade-exporter
 chown prometheus:prometheus /var/lib/prometheus/prometheus-flashblade-exporter
+
+cd $INST_DIR
+wget -q https://dl.google.com/go/go1.13.8.linux-amd64.tar.gz
+tar -C /usr/local -xzf go1.13.8.linux-amd64.tar.gz
+
+yum -y -q install zip
+
+wget -q https://github.com/man-group/prometheus-flashblade-exporter/archive/master.zip
+unzip master.zip
