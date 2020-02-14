@@ -169,6 +169,8 @@ echo "Compiling prometheus-flashblade-exporter ....."
 make
 cp prometheus-flashblade-exporter /usr/local/bin
 cd ..
+rm master.zip
+rm go1.13.8.linux-amd64.tar.gz
 rm -r prometheus-flashblade-exporter-master
 chown prometheus:prometheus /usr/local/bin/prometheus-flashblade-exporter
 chmod 755 /usr/local/bin/prometheus-flashblade-exporter
