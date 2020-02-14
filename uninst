@@ -53,3 +53,12 @@ rm -rf /var/lib/grafana
 rm -rf /var/cache/yum/x86_64/7/grafana 
 
 rm -rf /usr/local/bin/prometheus-flashblade-exporter 
+
+echo
+echo
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+printf "${RED}-----------------  DONE uninstalling ------------------------${NC}\n"
+
+echo
+echo
