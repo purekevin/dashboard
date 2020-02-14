@@ -8,7 +8,7 @@ NC='\033[0m' # No Color
 printf "${GREEN}-----------------  Beginning install ------------------------${NC}\n"
 
 
-echo "Updating system rpms...."
+printf "${GREEN}Updating system rpms....${NC}\n"
 yum update -y -q
 
 echo
@@ -18,12 +18,12 @@ useradd --no-create-home --shell /usr/sbin/nologin prometheus
 useradd --no-create-home --shell /bin/false node_exporter
 useradd --no-create-home --shell /usr/sbin/nologin pure_exporter
 
-echo "creating diretories..."
+printf "${GREEN}Creating diretories...${NC}\n"
 mkdir /etc/prometheus
 mkdir /var/lib/prometheus
 mkdir /tmp/prometheus
 
-echo "Downloading prometheus tarball...."
+printf "${GREEN}Downloading prometheus tarball....${NC}\n"
 cd /tmp/prometheus
 curl -s https://api.github.com/repos/prometheus/prometheus/releases/latest \
 | grep browser_download_url  \
@@ -32,12 +32,12 @@ curl -s https://api.github.com/repos/prometheus/prometheus/releases/latest \
 | wget -qi -
 
 echo
-echo "Untarring Prometheus..."
+printf "${GREEN}Untarring Prometheus...${NC}\n"
 cd /tmp/prometheus
 tar xzf `ls *gz`
 
 
-echo "Moving prometheus to /var/lib..."
+printf "${GREEN}Moving prometheus to /var/lib...${NC}\n"
 cd /tmp/prometheus/`ls /tmp/prometheus|grep -v gz`
 
 mv * /var/lib/prometheus
@@ -47,7 +47,7 @@ ln -s /var/lib/prometheus/prometheus /usr/local/bin/prometheus
 chown -R prometheus:prometheus /etc/prometheus
 chown -R prometheus:prometheus /var/lib/prometheus
 
-echo "Downloading node_exporter......"
+printf "${GREEN}Downloading node_exporter......${NC}\n"
 cd /tmp/prometheus
 mkdir node_exporter
 cd node_exporter
@@ -78,18 +78,12 @@ WantedBy=multi-user.target
 
 " >/etc/systemd/system/prometheus.service
 
-echo "Starting up Prometheus......"
+printf "${GREEN}Starting up Prometheus......${NC}\n"
 systemctl daemon-reload
 systemctl enable --now prometheus
 systemctl start prometheus
 sleep 5
 systemctl status prometheus.service | grep "Active:"
-
-
-
-# echo "Opening up the firewall for port 9090...."
-# firewall-cmd --permanent --add-port=9090/tcp
-# firewall-cmd --reload
 
 
 echo "[Unit]
@@ -104,7 +98,7 @@ WantedBy=default.target
 
 " >/etc/systemd/system/node_exporter.service
 
-echo "Starting up node_exporter..."
+printf "${GREEN}Starting up node_exporter...${NC}\n"
 systemctl daemon-reload
 systemctl enable --now node_exporter
 systemctl start node_exporter
@@ -123,11 +117,7 @@ sleep 5
 systemctl status prometheus | grep "Active:"
 
 echo
-echo
-echo
-echo "================================================================================"
-echo "=    Installing grafana......."
-echo "--------------------------------------------------------------------------------"
+printf "${GREEN}Installing grafana.......${NC}\n"
 echo "[grafana]
 name=grafana
 baseurl=https://packages.grafana.com/oss/rpm
@@ -153,19 +143,19 @@ cd $INST_DIR
 wget -q https://dl.google.com/go/go1.13.8.linux-amd64.tar.gz
 tar -C /usr/local -xzf go1.13.8.linux-amd64.tar.gz
 
-echo "================================================================================"
-echo "Installing zip ....."
+printf "${GREEN}================================================================================${NC}\n"
+printf "${GREEN}Installing zip .....${NC}\n"
 yum -y -q install zip
 echo
-echo "================================================================================"
-echo "Downloading prometheus-flashblade-exporter ....."
+printf "${GREEN}================================================================================${NC}\n"
+printf "${GREEN}Downloading prometheus-flashblade-exporter .....${NC}\n"
 wget -q https://github.com/man-group/prometheus-flashblade-exporter/archive/master.zip
-echo "Unzipping prometheus-flashblade-exporter ....."
+printf "${GREEN}Unzipping prometheus-flashblade-exporter .....${NC}\n"
 unzip master.zip
 cd prometheus-flashblade-exporter-master
 PATH=$PATH:/usr/local/go/bin
 export PATH
-echo "Compiling prometheus-flashblade-exporter ....."
+printf "${GREEN}Compiling prometheus-flashblade-exporter .....${NC}\n"
 make
 cp prometheus-flashblade-exporter /usr/local/bin
 cd ..
@@ -174,7 +164,7 @@ rm go1.13.8.linux-amd64.tar.gz
 rm -r prometheus-flashblade-exporter-master
 chown prometheus:prometheus /usr/local/bin/prometheus-flashblade-exporter
 chmod 755 /usr/local/bin/prometheus-flashblade-exporter
-echo "Downloading prometheus-flashblade-exporter startup file....."
+printf "${GREEN}Downloading prometheus-flashblade-exporter startup file.....${NC}\n"
 
 wget -q https://raw.githubusercontent.com/purekevin/se-dashboarding/master/start-fb-exporter
 chmod 755 start-fb-exporter
@@ -185,8 +175,7 @@ echo "
     static_configs:
     - targets: ['localhost:9130']
 " >> /etc/prometheus/prometheus.yml 
-echo "Restarting Prometheus after updating the /etc/prometheus/prometheus.yml file..."
+printf "${GREEN}Restarting Prometheus after updating the /etc/prometheus/prometheus.yml file...${NC}\n"
 systemctl restart prometheus
 sleep 5
-systemctl status prometheus | grep "Active:"
-
+systemctl status prometheus | grep "Active:${NC}\n"
