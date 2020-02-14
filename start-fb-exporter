@@ -5,8 +5,5 @@ FB_IP_ADDR=10.21.225.35
 echo "Enter the pureuser password (pureuser)..."
 TOKEN=`ssh pureuser@10.21.225.35 pureadmin list --api-token --expose|grep pureuser | awk  '{FS=":"; gsub(/\r$/,"",$2); print $2}'`
 
-
-
-
 export PUREFB_API=$TOKEN
 nohup /usr/local/bin/prometheus-flashblade-exporter --insecure --filesystem-metrics $FB_IP_ADDR  & >/tmp/prometheus-flashblade-exporter  2>&1
