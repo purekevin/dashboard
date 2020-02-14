@@ -2,6 +2,13 @@
 
 INST_DIR=`pwd`
 
+RED='\033[0;31m'
+RGREEN='\033[0;32m'
+NC='\033[0m' # No Color
+printf "${GREEN}-----------------  Beginning install ------------------------\n"
+#printf "${GREEN}-----------------  Beginning install ------------------------${NC}\n"
+
+
 echo "Updating system rpms...."
 yum update -y -q
 
