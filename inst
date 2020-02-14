@@ -176,3 +176,7 @@ chown prometheus:prometheus /usr/local/bin/prometheus-flashblade-exporter
 chmod 755 /usr/local/bin/prometheus-flashblade-exporter
 echo "Downloading prometheus-flashblade-exporter startup file....."
 
+wget -q https://raw.githubusercontent.com/purekevin/se-dashboarding/master/start-fb-exporter
+chmod 755 start-fb-exporter
+./start-fb-exporter
+
