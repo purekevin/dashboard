@@ -9,9 +9,9 @@ userdel -rf node_exporter 2>/dev/null
 userdel -rf pure_exporter 2>/dev/null
 
 echo "creating diretories..."
-rm -r /etc/prometheus 
-rm -r /var/lib/prometheus 
-rm -r /tmp/prometheus 
+rm -rf /etc/prometheus 
+rm -rf /var/lib/prometheus 
+rm -rf /tmp/prometheus 
 
 
 
