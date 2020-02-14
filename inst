@@ -31,7 +31,7 @@ curl -s https://api.github.com/repos/prometheus/prometheus/releases/latest \
 | cut -d '"' -f 4 \
 | wget -qi -
 
-echo -e "\n\n"
+echo
 echo "Untarring Prometheus..."
 cd /tmp/prometheus
 tar xzf `ls *gz`
@@ -78,11 +78,12 @@ WantedBy=multi-user.target
 
 " >/etc/systemd/system/prometheus.service
 
+echo "Starting up Prometheus......"
 systemctl daemon-reload
 systemctl enable --now prometheus
 systemctl start prometheus
-sleep 10
-systemctl status prometheus.service
+sleep 5
+systemctl status prometheus.service | grep "Active:"
 
 
 
@@ -107,8 +108,8 @@ echo "Starting up node_exporter..."
 systemctl daemon-reload
 systemctl enable --now node_exporter
 systemctl start node_exporter
-sleep 10
-systemctl status node_exporter.service
+sleep 5
+systemctl status node_exporter.service | grep "Active:"
 
 
 echo "
@@ -118,8 +119,8 @@ echo "
 " >> /etc/prometheus/prometheus.yml 
 
 systemctl restart prometheus
-sleep 10
-systemctl status prometheus
+sleep 5
+systemctl status prometheus | grep "Active:"
 
 echo
 echo
@@ -143,16 +144,33 @@ yum -y -q install grafana
 /bin/systemctl start grafana-server.service
 
 
-wget https://raw.githubusercontent.com/purekevin/se-dashboarding/master/prometheus-flashblade-exporter
-cp /home/pureuser/prometheus-flashblade-exporter /var/lib/prometheus
-ln -s /var/lib/prometheus/prometheus-flashblade-exporter /usr/local/bin/prometheus-flashblade-exporter
-chown prometheus:prometheus /var/lib/prometheus/prometheus-flashblade-exporter
+#wget https://raw.githubusercontent.com/purekevin/se-dashboarding/master/prometheus-flashblade-exporter
+#cp /home/pureuser/prometheus-flashblade-exporter /var/lib/prometheus
+#ln -s /var/lib/prometheus/prometheus-flashblade-exporter /usr/local/bin/prometheus-flashblade-exporter
+#chown prometheus:prometheus /var/lib/prometheus/prometheus-flashblade-exporter
 
 cd $INST_DIR
 wget -q https://dl.google.com/go/go1.13.8.linux-amd64.tar.gz
 tar -C /usr/local -xzf go1.13.8.linux-amd64.tar.gz
 
+echo "================================================================================"
+echo "Installing zip ....."
 yum -y -q install zip
-
+echo
+echo "================================================================================"
+echo "Downloading prometheus-flashblade-exporter ....."
 wget -q https://github.com/man-group/prometheus-flashblade-exporter/archive/master.zip
+echo "Unzipping prometheus-flashblade-exporter ....."
 unzip master.zip
+cd prometheus-flashblade-exporter-master
+PATH=$PATH:/usr/local/go/bin
+export PATH
+echo "Compiling prometheus-flashblade-exporter ....."
+make
+cp prometheus-flashblade-exporter /usr/local/bin
+cd ..
+rm -r prometheus-flashblade-exporter-master
+chown prometheus:prometheus /usr/local/bin/prometheus-flashblade-exporter
+chmod 755 /usr/local/bin/prometheus-flashblade-exporter
+echo "Downloading prometheus-flashblade-exporter startup file....."
+
