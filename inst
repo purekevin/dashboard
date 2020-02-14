@@ -180,3 +180,13 @@ wget -q https://raw.githubusercontent.com/purekevin/se-dashboarding/master/start
 chmod 755 start-fb-exporter
 ./start-fb-exporter
 
+echo "
+  - job_name: 'fb_exporter'
+    static_configs:
+    - targets: ['localhost:9130']
+" >> /etc/prometheus/prometheus.yml 
+echo "Restarting Prometheus after updating the /etc/prometheus/prometheus.yml file..."
+systemctl restart prometheus
+sleep 5
+systemctl status prometheus | grep "Active:"
+
