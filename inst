@@ -5,7 +5,7 @@ INST_DIR=`pwd`
 echo "Updating system rpms...."
 yum update -y -q
 
-echo -e "\n\n\n"
+echo
 
 #echo "Disabling selinux..."
 #sed -i s/^SELINUX=.*$/SELINUX=disabled/ /etc/selinux/config
