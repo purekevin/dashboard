@@ -4,52 +4,52 @@
 echo -e "\n\n\n"
 
 echo "Deleting users: prometheus, node_exporter, pure_exporter"
-userdel -rf prometheus
-userdel -rf node_exporter
-userdel -rf pure_exporter
+userdel -rf prometheus 2>/dev/null
+userdel -rf node_exporter 2>/dev/null
+userdel -rf pure_exporter 2>/dev/null
 
 echo "creating diretories..."
-\rm -r /etc/prometheus
-\rm -r /var/lib/prometheus
-\rm -r /tmp/prometheus
+\rm -r /etc/prometheus 2>/dev/null
+\rm -r /var/lib/prometheus 2>/dev/null
+\rm -r /tmp/prometheus 2>/dev/null
 
 
 
-echo "Re-enabling selinux..."
+#echo "Re-enabling selinux..."
 
-sed -i s/^SELINUX=.*$/SELINUX=enforcing/ /etc/selinux/config
-setenforce 1
-sestatus
+#sed -i s/^SELINUX=.*$/SELINUX=enforcing/ /etc/selinux/config
+#setenforce 1
+#sestatus
 
-rm /usr/local/bin/prometheus
-rm /usr/lib/systemd/system/prometheus.service
-
-
-systemctl disable --now node_exporter
-systemctl stop node_exporter
-systemctl status node_exporter
-
-systemctl status prometheus
-systemctl disable --now prometheus
-systemctl stop prometheus
-systemctl status prometheus
-
-rm /etc/systemd/system/prometheus.service /etc/systemd/system/node_exporter.service
-
-/bin/systemctl stop grafana-server.service
-/bin/systemctl disable grafana-server.service
-/bin/systemctl daemon-reload
-
-yum erase -y grafana
-rm /etc/yum.repos.d/grafana.repo
+rm /usr/local/bin/prometheus 2>/dev/null
+rm /usr/lib/systemd/system/prometheus.service 2>/dev/null
 
 
+systemctl disable --now node_exporter 2>/dev/null
+systemctl stop node_exporter 2>/dev/null
+systemctl status node_exporter 2>/dev/null
 
-rm -r /etc/grafana
-rm -r /usr/share/grafana
-rm -r /var/log/grafana
-rm -r /var/lib/yum/repos/x86_64/7/grafana
-rm -r /var/lib/grafana
-rm -r /var/cache/yum/x86_64/7/grafana
+systemctl status prometheus 2>/dev/null
+systemctl disable --now prometheus 2>/dev/null
+systemctl stop prometheus 2>/dev/null
+systemctl status prometheus 2>/dev/null
 
-rm /usr/local/bin/prometheus-flashblade-exporter
+rm /etc/systemd/system/prometheus.service /etc/systemd/system/node_exporter.service 2>/dev/null
+
+/bin/systemctl stop grafana-server.service 2>/dev/null
+/bin/systemctl disable grafana-server.service 2>/dev/null
+/bin/systemctl daemon-reload 2>/dev/null
+
+yum erase -y grafana 2>/dev/null
+rm /etc/yum.repos.d/grafana.repo 2>/dev/null
+
+
+
+rm -r /etc/grafana 2>/dev/null
+rm -r /usr/share/grafana 2>/dev/null
+rm -r /var/log/grafana 2>/dev/null
+rm -r /var/lib/yum/repos/x86_64/7/grafana 2>/dev/null
+rm -r /var/lib/grafana 2>/dev/null
+rm -r /var/cache/yum/x86_64/7/grafana 2>/dev/null
+
+rm /usr/local/bin/prometheus-flashblade-exporter 2>/dev/null
