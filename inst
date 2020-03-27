@@ -12,7 +12,7 @@ yum update -y -q
 
 echo
 printf "${GREEN}Installing wget${NC}\n"
-yum -s -y install wget
+yum -y -q install wget
 
 echo
 printf "${GREEN}Creating users: prometheus, node_exporter, pure_exporter${NC}\n"
