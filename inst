@@ -147,8 +147,9 @@ wget -q https://dl.google.com/go/go1.13.8.linux-amd64.tar.gz
 tar -C /usr/local -xzf go1.13.8.linux-amd64.tar.gz
 
 printf "${GREEN}================================================================================${NC}\n"
-printf "${GREEN}Installing zip .....${NC}\n"
+printf "${GREEN}Installing zip and unzip .....${NC}\n"
 yum -y -q install zip
+yum -y -q install unzip
 echo
 printf "${GREEN}================================================================================${NC}\n"
 printf "${GREEN}Downloading prometheus-flashblade-exporter .....${NC}\n"
