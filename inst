@@ -183,3 +183,17 @@ printf "${GREEN}Restarting Prometheus after updating the /etc/prometheus/prometh
 systemctl restart prometheus
 sleep 5
 systemctl status prometheus | grep "Active"
+printf "${GREEN}-----------------  Beginning install of rapidfile toolkit ------------------------${NC}\n"
+wget -q http://www.lehuaparker.com/rapidfile-1.0.0-beta.4.tar.gz
+tar xzf rapidfile-1.0.0-beta.4.tar.gz
+rm rapidfile-1.0.0-beta.4.tar.gz
+rpm -U rapidfile-1.0.0-beta.4/rapidfile-1.0.0-beta.4-Linux.rpm
+
+printf "${GREEN}-----------------  Beginning install nfs utils ------------------------${NC}\n"
+yum -y -q install nfs-utils
+
+mkdir /mnt1 /mnt2
+echo "10.21.225.38:/da-dashboard-1   /mnt1     nfs    rw,sync,hard,intr 0 0" >>/etc/fstab
+echo "10.21.225.38:/da-dashboard-2   /mnt2     nfs    rw,sync,hard,intr 0 0" >>/etc/fstab
+mount /mnt1
+mount /mnt2
