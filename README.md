@@ -6,9 +6,11 @@ Code to install/run prometheus/grafana/node-exporter/flashblade-exporter/APIs
 <Probably need to install wget first...>
 
 Once logged into the VM, run this command:<br>
-wget https://raw.githubusercontent.com/purekevin/se-dashboarding/master/inst
+curl -s -o inst https://raw.githubusercontent.com/purekevin/dashboard/master/inst
 
 chmod 755 ./inst<br>
 ./inst
 
-  
+
+Notes:
+topk(10,flashblade_s3_object_count)
