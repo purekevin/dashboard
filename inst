@@ -136,12 +136,6 @@ yum -y -q install grafana
 /bin/systemctl enable grafana-server.service
 /bin/systemctl start grafana-server.service
 
-
-#wget https://raw.githubusercontent.com/purekevin/se-dashboarding/master/prometheus-flashblade-exporter
-#cp /home/pureuser/prometheus-flashblade-exporter /var/lib/prometheus
-#ln -s /var/lib/prometheus/prometheus-flashblade-exporter /usr/local/bin/prometheus-flashblade-exporter
-#chown prometheus:prometheus /var/lib/prometheus/prometheus-flashblade-exporter
-
 cd $INST_DIR
 wget -q https://dl.google.com/go/go1.13.8.linux-amd64.tar.gz
 tar -C /usr/local -xzf go1.13.8.linux-amd64.tar.gz
