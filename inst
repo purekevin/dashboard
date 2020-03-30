@@ -1,10 +1,69 @@
 #!/bin/sh
 
 INST_DIR=`pwd`
+DEFAULT_MANAGEMENT_IP="10.21.225.35"
+DEFAULT_NFS_VIP="10.21.225.38"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
+
+printf "${GREEN}-----------------  Collecting IP addresses and stuff... ------------------------${NC}\n"
+SUBNET=`netstat -r|grep ^10|awk -F . '{print $1"."$2"."$3}'`
+IP_ADDR=`ifconfig | grep $SUBNET | awk '{print $2}'`
+
+echo "Verify the FlashBlade's mangement ip address via the gui:"
+echo ' - Go to PureTec, launch the FlashBlade GUI interface by clicking on the block titled "FlashBlade"'
+echo ' - Click on "Login" to login as "pureuser"'
+echo ' - Click on "Settings" on the left left navigation panel'
+echo ' - Click on "Network" on the top menu bar'
+echo ' - Search for "Management" in the "Services" column'
+echo ' - The managment IP address will be in the column to the left of word "Management"'
+echo
+echo
+echo 'While on this screen, verify the NFS VIP ip address as well:'
+echo ' - Look in the "Services" column for an entry that says "Data"'
+echo '   and the "Interface" column says "nfs01" - should be 10.21.225.38'
+echo
+echo
+echo
+
+echo "Please enter the IP address of the FlashBlade management interface:"
+printf "(Press enter to accept default of $DEFAULT_MANAGEMENT_IP):"
+read ANSWER
+
+if [ -z "$ANSWER" ]
+then
+        MANAGEMENT_IP=$DEFAULT_MANAGEMENT_IP
+else
+        MANAGEMENT_IP=$ANSWER
+fi
+echo
+echo
+echo "Please enter the IP address of the NFS VIP:"
+printf "(Press enter to accept default of $DEFAULT_NFS_VIP):"
+read ANSWER
+
+if [ -z "$ANSWER" ]
+then
+        NFS_VIP=$DEFAULT_NFS_VIP
+else
+        NFS_VIP=$ANSWER
+fi
+
+echo
+echo
+echo
+echo "Summary:"
+echo "------------------------------"
+printf "Flashblade Management IP address: ${GREEN}$MANAGEMENT_IP${NC}\n"
+printf "Flashblade NFS VIP IP address: ${GREEN}$NFS_VIP${NC}\n"
+printf "Dashboard VM IP address: ${GREEN}$IP_ADDR${NC}\n"
+echo
+printf "Press ${GREEN}<CR>${NC} to continue, or ${RED}<CNTL-C>${NC} to abort:"
+read foo
+
+
 printf "${GREEN}-----------------  Beginning install ------------------------${NC}\n"
 
 printf "${GREEN}Updating system rpms....${NC}\n"
@@ -166,7 +225,7 @@ chown prometheus:prometheus /usr/local/bin/prometheus-flashblade-exporter
 chmod 755 /usr/local/bin/prometheus-flashblade-exporter
 printf "${GREEN}Downloading prometheus-flashblade-exporter startup file.....${NC}\n"
 
-wget -q https://raw.githubusercontent.com/purekevin/se-dashboarding/master/start-fb-exporter
+wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/start-fb-exporter
 chmod 755 start-fb-exporter
 ./start-fb-exporter
 
@@ -189,7 +248,17 @@ printf "${GREEN}-----------------  Beginning install nfs utils -----------------
 yum -y -q install nfs-utils
 
 mkdir /mnt1 /mnt2
-echo "10.21.225.38:/da-dashboard-1   /mnt1     nfs    rw,sync,hard,intr 0 0" >>/etc/fstab
-echo "10.21.225.38:/da-dashboard-2   /mnt2     nfs    rw,sync,hard,intr 0 0" >>/etc/fstab
+echo "${NFS_VIP}:/da-dashboard-1   /mnt1     nfs    rw,sync,hard,intr 0 0" >>/etc/fstab
+echo "${NFS_VIP}:/da-dashboard-2   /mnt2     nfs    rw,sync,hard,intr 0 0" >>/etc/fstab
 mount /mnt1
 mount /mnt2
+echo
+echo
+echo
+echo
+echo
+printf "${GREEN}-----------------  Installation complete ------------------------${NC}\n"
+printf "Please point browser to ${GREEN}https://$IP_ADDR:9090${NC}\n"
+echo
+echo
+echo
