@@ -258,7 +258,7 @@ echo
 echo
 printf "${GREEN}-----------------  Installation complete ------------------------${NC}\n"
 echo
-printf "Please point browser to ${GREEN}https://$IP_ADDR:3000${NC}\n"
+printf "Please point browser to ${GREEN}http://$IP_ADDR:3000${NC}\n"
 echo
 echo
 echo
