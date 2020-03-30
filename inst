@@ -154,7 +154,7 @@ Description=Node Exporter
 
 [Service]
 User=prometheus
-ExecStart=/var/lib/prometheus/node_exporter --collector.text.file /var/lib/prometheus/logcollect 
+ExecStart=/var/lib/prometheus/node_exporter --collector.textfile.directory /var/lib/prometheus/logcollect 
 
 [Install]
 WantedBy=default.target
@@ -257,7 +257,8 @@ echo
 echo
 echo
 printf "${GREEN}-----------------  Installation complete ------------------------${NC}\n"
-printf "Please point browser to ${GREEN}https://$IP_ADDR:9090${NC}\n"
+echo
+printf "Please point browser to ${GREEN}https://$IP_ADDR:3000${NC}\n"
 echo
 echo
 echo
