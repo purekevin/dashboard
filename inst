@@ -134,7 +134,6 @@ ExecStart=/usr/local/bin/prometheus \
 --config.file /etc/prometheus/prometheus.yml \
 --storage.tsdb.path /var/lib/prometheus \
 --web.console.templates=/var/lib/prometheus/consoles \
---collector.text.file /var/lib/prometheus/logcollect \
 --web.console.libraries=/var/lib/prometheus/console_libraries 
 
 [Install]
@@ -155,7 +154,7 @@ Description=Node Exporter
 
 [Service]
 User=prometheus
-ExecStart=/var/lib/prometheus/node_exporter 
+ExecStart=/var/lib/prometheus/node_exporter --collector.text.file /var/lib/prometheus/logcollect 
 
 [Install]
 WantedBy=default.target
