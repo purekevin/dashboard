@@ -24,6 +24,7 @@ useradd --no-create-home --shell /usr/sbin/nologin pure_exporter
 printf "${GREEN}Creating diretories...${NC}\n"
 mkdir /etc/prometheus
 mkdir /var/lib/prometheus
+mkdir /var/lib/prometheus/logcollect
 mkdir /tmp/prometheus
 
 printf "${GREEN}Downloading prometheus tarball....${NC}\n"
