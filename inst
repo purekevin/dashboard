@@ -181,7 +181,9 @@ sleep 5
 systemctl status prometheus | grep "Active:"
 
 echo
-printf "${GREEN}Installing grafana.......${NC}\n"
+printf "${GREEN}-----------------  Installing grafana.db ------------------------${NC}\n"
+echo
+echo
 echo "[grafana]
 name=grafana
 baseurl=https://packages.grafana.com/oss/rpm
@@ -195,7 +197,16 @@ yum -y -q install grafana
 
 /bin/systemctl daemon-reload
 /bin/systemctl enable grafana-server.service
+
+wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/grafana.db
+chown grafana:grafana grafana.db
+mv /var/lib/grafana/grafana.db /var/lib/grafana/grafana.db.orig 2>/dev/null >/dev/null
+mv grafana.db /var/lib/grafana
 /bin/systemctl start grafana-server.service
+
+echo
+echo
+printf "${GREEN}-----------------  Installing go ------------------------${NC}\n"
 
 cd $INST_DIR
 wget -q https://dl.google.com/go/go1.13.8.linux-amd64.tar.gz
@@ -210,7 +221,7 @@ printf "${GREEN}================================================================
 printf "${GREEN}Downloading prometheus-flashblade-exporter .....${NC}\n"
 wget -q https://github.com/man-group/prometheus-flashblade-exporter/archive/master.zip
 printf "${GREEN}Unzipping prometheus-flashblade-exporter .....${NC}\n"
-unzip master.zip
+unzip master.zip 2>/dev/null 1>/dev/null
 cd prometheus-flashblade-exporter-master
 PATH=$PATH:/usr/local/go/bin
 export PATH
@@ -266,15 +277,7 @@ printf "${GREEN}-----------------  Downloading mkfiles.sh script ---------------
 wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/mkfiles.sh
 echo
 echo
-printf "${GREEN}-----------------  Installing grafana.db ------------------------${NC}\n"
-wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/grafana.db
-systemctl stop grafana-server
-chown grafana:grafana grafana.db
-mv /var/lib/grafana/grafana.db /var/lib/grafana/grafana.db.orig
-mv grafana.db /var/lib/grafana
-systemctl start grafana-server
-echo
-echo
+
 printf "${GREEN}-----------------  Installation complete ------------------------${NC}\n"
 echo
 printf "Please point browser to ${GREEN}http://$IP_ADDR:3000${NC}\n"
