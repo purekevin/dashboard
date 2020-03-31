@@ -253,7 +253,25 @@ mount /mnt1
 mount /mnt2
 echo
 echo
+printf "${GREEN}-----------------  Installing crontab ------------------------${NC}\n"
+wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/crontab
+crontab -l >crontab.tmp
+cat crontab >>crontab.tmp
+crontab crontab.tmp
+crontab -l
 echo
+echo
+printf "${GREEN}-----------------  Downloading mkfiles.sh script ------------------------${NC}\n"
+wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/mkfiles.sh
+echo
+echo
+printf "${GREEN}-----------------  Installing grafana.db ------------------------${NC}\n"
+wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/grafana.db
+systemctl stop grafana-server
+chown grafana:grafana grafana.db
+mv /var/lib/grafana/grafana.db /var/lib/grafana/grafana.db.orig
+mv grafana.db /var/lib/grafana
+systemctl start grafana-server
 echo
 echo
 printf "${GREEN}-----------------  Installation complete ------------------------${NC}\n"
