@@ -219,6 +219,12 @@ yum -y -q install unzip
 echo
 printf "${GREEN}================================================================================${NC}\n"
 printf "${GREEN}Downloading prometheus-flashblade-exporter .....${NC}\n"
+echo
+echo
+printf "${GREEN}To configure the flashblade exporter, we need to establish a secure API connection"
+printf "to the FlashBlade.  You will be prompted if you want to continue connecting..."
+printf "Enter 'yes' and then you be prompted for the password.  Enter 'pureuser' as the password."
+
 wget -q https://github.com/man-group/prometheus-flashblade-exporter/archive/master.zip
 printf "${GREEN}Unzipping prometheus-flashblade-exporter .....${NC}\n"
 unzip master.zip 2>/dev/null 1>/dev/null
