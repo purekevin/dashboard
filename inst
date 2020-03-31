@@ -219,12 +219,6 @@ yum -y -q install unzip
 echo
 printf "${GREEN}================================================================================${NC}\n"
 printf "${GREEN}Downloading prometheus-flashblade-exporter .....${NC}\n"
-echo
-echo
-printf "${GREEN}To configure the flashblade exporter, we need to establish a secure API connection"
-printf "to the FlashBlade.  You will be prompted if you want to continue connecting..."
-printf "Enter 'yes' and then you be prompted for the password.  Enter 'pureuser' as the password."
-
 wget -q https://github.com/man-group/prometheus-flashblade-exporter/archive/master.zip
 printf "${GREEN}Unzipping prometheus-flashblade-exporter .....${NC}\n"
 unzip master.zip 2>/dev/null 1>/dev/null
@@ -241,7 +235,15 @@ rm -r prometheus-flashblade-exporter-master
 chown prometheus:prometheus /usr/local/bin/prometheus-flashblade-exporter
 chmod 755 /usr/local/bin/prometheus-flashblade-exporter
 printf "${GREEN}Downloading prometheus-flashblade-exporter startup file.....${NC}\n"
-
+echo
+echo
+printf "${GREEN}To configure the flashblade exporter, we need to establish a secure API connection\n"
+printf "to the FlashBlade.  You will be prompted if you want to continue connecting...\n"
+printf "Enter ${RED}'yes'${GREEN} when promted ${RED}'(yes/no)'${GREEN} /n"
+printf "Next you will be prompted for a password.  \n"
+printf "Enter ${RED}'pureuser'${GREEN} as the password.${NC}\n\n\n"
+echo
+echo
 wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/start-fb-exporter
 chmod 755 start-fb-exporter
 ./start-fb-exporter
@@ -275,6 +277,7 @@ printf "${GREEN}-----------------  Installing crontab ------------------------${
 wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/crontab
 wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/rft.sh
 chmod 755 rft.sh
+mv rft.sh /var/lib/prometheus/logcollect/
 crontab -l >crontab.tmp
 cat crontab >>crontab.tmp
 crontab crontab.tmp
