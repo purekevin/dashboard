@@ -274,6 +274,7 @@ echo
 printf "${GREEN}-----------------  Installing crontab ------------------------${NC}\n"
 wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/crontab
 wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/rft.sh
+chmod 755 rft.sh
 crontab -l >crontab.tmp
 cat crontab >>crontab.tmp
 crontab crontab.tmp
