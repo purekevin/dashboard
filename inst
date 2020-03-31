@@ -8,7 +8,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
-printf "${GREEN}-----------------  Collecting IP addresses and stuff... ------------------------${NC}\n"
+printf "${GREEN}-----------------  Collecting IP addresses ... ------------------------${NC}\n"
 SUBNET=`netstat -r|grep ^10|awk -F . '{print $1"."$2"."$3}'`
 IP_ADDR=`ifconfig | grep $SUBNET | awk '{print $2}'`
 
@@ -63,7 +63,8 @@ echo
 printf "Press ${GREEN}<CR>${NC} to continue, or ${RED}<CNTL-C>${NC} to abort:"
 read foo
 
-
+ecvho
+echo
 printf "${GREEN}-----------------  Beginning install ------------------------${NC}\n"
 
 printf "${GREEN}Updating system rpms....${NC}\n"
@@ -214,7 +215,7 @@ cd prometheus-flashblade-exporter-master
 PATH=$PATH:/usr/local/go/bin
 export PATH
 printf "${GREEN}Compiling prometheus-flashblade-exporter .....${NC}\n"
-make
+make >/dev/null 2>/dev/null
 cp prometheus-flashblade-exporter /usr/local/bin
 cd ..
 rm master.zip
