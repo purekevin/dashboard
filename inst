@@ -201,7 +201,7 @@ yum -y -q install grafana
 wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/grafana.db
 chown grafana:grafana grafana.db
 mv /var/lib/grafana/grafana.db /var/lib/grafana/grafana.db.orig 2>/dev/null >/dev/null
-#mv grafana.db /var/lib/grafana
+mv grafana.db /var/lib/grafana
 /bin/systemctl start grafana-server.service
 
 echo
