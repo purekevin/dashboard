@@ -63,7 +63,7 @@ echo
 printf "Press ${GREEN}<CR>${NC} to continue, or ${RED}<CNTL-C>${NC} to abort:"
 read foo
 
-ecvho
+echo
 echo
 printf "${GREEN}-----------------  Beginning install ------------------------${NC}\n"
 
