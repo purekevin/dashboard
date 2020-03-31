@@ -237,10 +237,11 @@ chmod 755 /usr/local/bin/prometheus-flashblade-exporter
 printf "${GREEN}Downloading prometheus-flashblade-exporter startup file.....${NC}\n"
 echo
 echo
-printf "${GREEN}To configure the flashblade exporter, we need to establish a secure API connection\n"
-printf "to the FlashBlade.  You will be prompted if you want to continue connecting...\n"
-printf "Enter ${RED}'yes'${GREEN} when promted ${RED}'(yes/no)'${GREEN} /n"
-printf "Next you will be prompted for a password.  \n"
+printf "${GREEN}To configure the flashblade exporter, we need to establish a secure \n"
+printf "API connection to the FlashBlade.  You will be prompted if you want to \n"
+printf "continue connecting:\n"
+printf "Enter ${RED}'yes'${GREEN} when promted ${NC}'(yes/no)' \n"
+printf "\n${GREEN}Next you will be prompted for a password.  \n"
 printf "Enter ${RED}'pureuser'${GREEN} as the password.${NC}\n\n\n"
 echo
 echo
