@@ -294,6 +294,9 @@ echo
 printf "${GREEN}-----------------  Installation complete ------------------------${NC}\n"
 echo
 printf "Please point browser to ${GREEN}http://$IP_ADDR:3000${NC}\n"
+printf "Login with the username ${GREEN}admin{NC}\n"
+printf "and the password is ${GREEN}admin{NC}\n"
+
 echo
 echo
 echo
