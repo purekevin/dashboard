@@ -67,7 +67,6 @@ do
         touch /$TARGET_DIR/file.${CNT}.$$
         CNT=`expr $CNT + 1`
 done
-echo
-"Complete - created $NUM_FILE new files in $TARGET_DIR"
+echo "Complete - created $NUM_FILE new files in $TARGET_DIR"
 echo
 echo
