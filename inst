@@ -247,7 +247,7 @@ echo
 echo
 wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/start-fb-exporter
 chmod 755 start-fb-exporter
-./start-fb-exporter
+./start-fb-exporter $MANAGEMENT_IP
 
 echo "
   - job_name: 'fb_exporter'
