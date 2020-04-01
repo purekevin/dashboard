@@ -1,6 +1,10 @@
 #!/bin/sh
+FB_IP_ADDR=$1
 
-FB_IP_ADDR=10.21.225.35
+if [ "$FB_IP_ADDR" = "" ]
+then
+        FB_IP_ADDR="10.21.225.35"
+fi
 
 echo "Enter the pureuser password (pureuser)..."
 TOKEN=`ssh pureuser@10.21.225.35 pureadmin list --api-token --expose|grep pureuser | awk  '{FS=":"; gsub(/\r$/,"",$2); print $2}'`
