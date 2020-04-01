@@ -1,4 +1,4 @@
-/bin/sh
+#/bin/sh
 
 I=1
 MOUNTPOINTS=""
