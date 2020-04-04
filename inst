@@ -212,12 +212,12 @@ cd $INST_DIR
 wget -q https://dl.google.com/go/go1.13.8.linux-amd64.tar.gz
 tar -C /usr/local -xzf go1.13.8.linux-amd64.tar.gz
 
-printf "${GREEN}================================================================================${NC}\n"
+printf "${GREEN}============================================================================${NC}\n"
 printf "${GREEN}Installing zip and unzip .....${NC}\n"
 yum -y -q install zip
 yum -y -q install unzip
 echo
-printf "${GREEN}================================================================================${NC}\n"
+printf "${GREEN}============================================================================${NC}\n"
 printf "${GREEN}Downloading prometheus-flashblade-exporter .....${NC}\n"
 wget -q https://github.com/man-group/prometheus-flashblade-exporter/archive/master.zip
 printf "${GREEN}Unzipping prometheus-flashblade-exporter .....${NC}\n"
@@ -285,9 +285,10 @@ crontab crontab.tmp
 crontab -l
 echo
 echo
-printf "${GREEN}-----------------  Downloading mkfiles.sh script ------------------------${NC}\n"
-wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/mkfiles.sh
-chmod 755 mkfiles.sh
+printf "${GREEN}-----------------  Downloading additional tools ------------------------${NC}\n"
+wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/mk-empty-files.sh
+wget -q https://raw.githubusercontent.com/purekevin/dashboard/master/mk-data-files.sh
+chmod 755 mk-empty-files.sh mk-data-files.sh
 echo
 echo
 
