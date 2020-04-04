@@ -45,19 +45,15 @@ do
 done
 echo
 echo
-echo
 printf "Enter number of files to make in ${TARGET_DIR}? "
 read NUM_FILES
 
-echo
-echo
 echo
 
 printf "Generate $NUM_FILES new files in ${TARGET_DIR}?\n"
 printf "<CR> to continue, <CNTL-C>"
 read FOO
 
-echo
 echo
 echo
 
