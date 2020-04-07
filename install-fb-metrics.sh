@@ -234,7 +234,7 @@ rm go1.13.8.linux-amd64.tar.gz
 rm -r prometheus-flashblade-exporter-master
 chown prometheus:prometheus /usr/local/bin/prometheus-flashblade-exporter
 chmod 755 /usr/local/bin/prometheus-flashblade-exporter
-printf "${GREEN}Downloading prometheus-flashblade-exporter startup file.....${NC}\n"
+#printf "${GREEN}Downloading prometheus-flashblade-exporter startup file.....${NC}\n"
 echo
 echo
 printf "${GREEN}To configure the flashblade exporter, we need to establish a secure \n"
@@ -249,15 +249,11 @@ echo
 #chmod 755 start-fb-exporter
 #./start-fb-exporter $MANAGEMENT_IP
 
-
 echo "Enter the pureuser password (pureuser)..."
 TOKEN=`ssh pureuser@${MANAGEMENT_IP} pureadmin list --api-token --expose|grep pureuser | awk  '{FS=":"; gsub(/\r$/,"",$2); print $2}'`
 
 export PUREFB_API=$TOKEN
 nohup /usr/local/bin/prometheus-flashblade-exporter --insecure --filesystem-metrics $MANAGEMENT_IP & >/tmp/prometheus-flashblade-exporter  2>&1
-
-
-
 
 echo "
   - job_name: 'fb_exporter'
