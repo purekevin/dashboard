@@ -1,4 +1,4 @@
-# se-dashboarding
+# FB-Metrics Dashboard
 Code to install/run prometheus/grafana/node-exporter/flashblade-exporter/APIs
 
 Once logged into the VM, run this command:<br>
