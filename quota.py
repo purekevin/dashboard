@@ -1,0 +1,99 @@
+import sys
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+from purity_fb import PurityFb, FileSystem, FileSystemSnapshot, SnapshotSuffix, rest
+
+API_TOKEN="T-280cb1ca-964d-40ab-9c13-bafbc76a4693"
+FB_IP="10.21.225.35"
+
+def format_bytes(size):
+    # 2**10 = 1024
+    power = 2**10
+    n = 0
+    power_labels = {0 : '', 1: ' KB', 2: ' MB', 3: ' GB', 4: ' TB'}
+    while size > power:
+        size /= power
+        n += 1
+    size=round(size,0)
+    size_str=str(size) + power_labels[n]
+    return size_str
+
+fb = PurityFb(FB_IP)
+
+try:
+	fs=str(sys.argv[1])
+	
+	# Set API token
+	fb.login(API_TOKEN)
+	
+	# Get default user quota information and store in "res"
+	res = fb.quotas_users.list_user_quotas(file_system_names=[fs])
+
+
+	# Get user quota information for this filesystem
+	res = fb.usage_users.list_user_usage(file_system_names=[fs])
+
+	fs_def_user_quota=str(format_bytes(res.items[0].file_system_default_quota))
+	print("===============================================================")
+	print("User Quota/Usage information --- Def user quota", fs_def_user_quota)
+	print("===============================================================")
+	print("UID     Username   Quota	       Used                %")
+	print("===============================================================")
+	
+	# Get a count of number of entries we will need to display
+	num_users=int(res.pagination_info.total_item_count)
+
+	for I in range(num_users):
+		UID=str(res.items[I].user.id)
+		username=str(res.items[I].user.name)
+		quota=res.items[I].quota
+		usage=int(res.items[I].usage)
+		if quota:
+			percent=int((usage/quota)*100)
+			quota=str(format_bytes(quota))
+		else:
+			percent="-"
+			quota="-"
+
+		print ('{:<8}{:<11}{:<20}{:<20}{:<4}'.format(UID,username,str(quota),str(usage),str(percent)))
+
+	print("===============================================================")
+	print("")
+	print("")
+	print("")
+	res = fb.usage_groups.list_group_usage(file_system_names=[fs])
+
+	# Get default GROUP quota information and store in "res"
+	fs_def_group_quota=str(format_bytes(res.items[0].file_system_default_quota))
+	
+	print("===============================================================")
+	print("Group Quota/Usage information -- Def group quota",fs_def_group_quota)
+	print("===============================================================")
+	print("GID     Grp name   Quota	       Used                %")
+	print("===============================================================")
+
+	# Get a count of number of entries we will need to display
+	num_groups=int(res.pagination_info.total_item_count)
+
+	for I in range(num_groups):
+		GID=str(res.items[I].group.id)
+		grpname=str(res.items[I].group.name)
+		quota=res.items[I].quota
+		usage=res.items[I].usage
+		if quota:
+			percent=int((usage/quota)*100)
+			quota=str(quota)
+		else:
+			percent="-"
+			quota="-"
+
+		print ('{:<8}{:<11}{:<20}{:<20}{:<4}'.format(GID,grpname,str(quota),str(usage),str(percent)))
+
+	print("===============================================================")
+
+	fb.logout()
+
+except rest.ApiException as e:
+	print("Exception: %s\n" % e)
+
