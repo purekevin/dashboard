@@ -1,34 +1,30 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: hello-python-service
-spec:
-  selector:
-    app: hello-python
-  ports:
-  - protocol: "TCP"
-    port: 6000
-    targetPort: 5000
-  type: LoadBalancer
+# Create a pod that reads and writes to the
+# NFS server via an NFS volume.
 
----
-apiVersion: apps/v1
-kind: Deployment
+kind: Pod
+apiVersion: v1
 metadata:
-  name: hello-python
+  name: pod-using-nfs
 spec:
-  selector:
-    matchLabels:
-      app: hello-python
-  replicas: 4
-  template:
-    metadata:
-      labels:
-        app: hello-python
-    spec:
-      containers:
-      - name: hello-python
-        image: hello-python:latest
-        imagePullPolicy: Never
-        ports:
-        - containerPort: 5000
+  # Add the server as an NFS volume for the pod
+  volumes:
+    - name: nfs-volume
+      nfs: 
+        # URL for the NFS server
+        server: 10.108.211.244 # Change this!
+        path: /
+
+  # In this container, we'll mount the NFS volume
+  # and write the date to a file inside it.
+  containers:
+    - name: app
+      image: alpine
+
+      # Mount the NFS volume in the container
+      volumeMounts:
+        - name: nfs-volume
+          mountPath: /var/nfs
+
+      # Write to a file inside our NFS
+      command: ["/bin/sh"]
+      args: ["-c", "while true; do date >> /var/nfs/dates.txt; sleep 5; done"]
